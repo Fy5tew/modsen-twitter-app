@@ -1,0 +1,25 @@
+@use './_constants' as *;
+
+:root {
+    --font-primary: var(--font-roboto);
+    --font-secondary: var(--font-roboto-serif);
+}
+
+html,
+html[data-theme='light'] {
+    --background-color: #{$light-background-color};
+    --text-color: #{$light-text-color};
+    --primary-color: #{$light-primary-color};
+    --secondary-color: #{$light-secondary-color};
+    --border-color: #{$light-border-color};
+    --placeholder-color: #{$light-placeholder-color};
+}
+
+html[data-theme='dark'] {
+    --background-color: #{$dark-background-color};
+    --text-color: #{$dark-text-color};
+    --primary-color: #{$dark-primary-color};
+    --secondary-color: #{$dark-secondary-color};
+    --border-color: #{$dark-border-color};
+    --placeholder-color: #{$dark-placeholder-color};
+}

@@ -1,0 +1,21 @@
+@use './constants' as *;
+
+@mixin breakpoint($breakpoint) {
+    @if $breakpoint == mobile {
+        @media (max-width: #{$mobile-width}) {
+            @content;
+        }
+    } @else if $breakpoint == tablet {
+        @media (min-width: #{$mobile-width}) and (max-width: #{$tablet-width}) {
+            @content;
+        }
+    } @else if $breakpoint == laptop {
+        @media (min-width: #{$tablet-width}) and (max-width: #{$laptop-width}) {
+            @content;
+        }
+    } @else if $breakpoint == desktop {
+        @media (min-width: #{$laptop-width}) {
+            @content;
+        }
+    }
+}

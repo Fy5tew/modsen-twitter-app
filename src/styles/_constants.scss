@@ -1,0 +1,41 @@
+$font-size-base: 14px;
+$font-size-mobile: 0.8em;
+$font-size-tablet: 0.9em;
+$font-size-laptop: 1em;
+$font-size-desktop: 1vw;
+
+$font-weight-xs: 400;
+$font-weight-s: 500;
+$font-weight-m: 600;
+$font-weight-l: 700;
+$font-weight-xl: 900;
+
+$mobile-width: 426px;
+$tablet-width: 769px;
+$laptop-width: 1441px;
+$desktop-width: 2561px;
+
+$white: #ffffff;
+$black: #000000;
+$grey-100: #eff3f4;
+$grey-200: #e4eaed;
+$grey-300: #b3b8bb;
+$grey-400: #828282;
+$grey-500: #5c6c79;
+$grey-600: #536471;
+$blue: #1da1f2;
+$red: #ef1c5c;
+
+$light-background-color: $white;
+$light-text-color: $black;
+$light-primary-color: $blue;
+$light-secondary-color: $white;
+$light-border-color: $grey-200;
+$light-placeholder-color: $grey-400;
+
+$dark-background-color: $black;
+$dark-text-color: $white;
+$dark-primary-color: $blue;
+$dark-secondary-color: $white;
+$dark-border-color: $grey-400;
+$dark-placeholder-color: $grey-600;
