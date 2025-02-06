@@ -1,0 +1,42 @@
+@use './_constants' as *;
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5em;
+    min-height: 100%;
+    max-width: 700px;
+    margin: auto;
+    padding: 2em;
+
+    .logo {
+        align-self: center;
+        width: 2.5em;
+        height: 2.5em;
+    }
+
+    .header {
+        font-family: var(--font-secondary);
+        font-weight: #{$font-weight-l};
+        font-size: 1.3em;
+    }
+
+    .headerLarge {
+        font-size: 2em;
+    }
+
+    .link {
+        width: fit-content;
+    }
+
+    .dateInfo {
+        color: var(--placeholder-color);
+    }
+
+    .dateInput {
+        display: grid;
+        grid-template-columns: 3fr 1fr 1fr;
+        gap: 1em;
+    }
+}
