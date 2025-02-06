@@ -1,0 +1,44 @@
+.wrapper {
+    position: relative;
+
+    .select {
+        appearance: none;
+        padding: 1em;
+        padding-right: 3em;
+        border: 1px solid var(--border-color);
+        border-radius: 0.5em;
+        outline: none;
+        cursor: pointer;
+        color: var(--text-color);
+        background-color: var(--background-color);
+        width: 100%;
+        min-width: max-content;
+
+        &.placeholder {
+            color: var(--placeholder-color);
+        }
+
+        .option {
+            &.placeholder {
+                color: var(--placeholder-color);
+            }
+        }
+    }
+
+    .icon {
+        position: absolute;
+        top: 50%;
+        right: 1em;
+        transform: translateY(-50%);
+        pointer-events: none;
+        transition: transform 0.2s ease-in-out;
+        width: 1em;
+        height: 1em;
+    }
+
+    &[data-opened='true'] {
+        .icon {
+            transform: translateY(-60%) rotate(180deg);
+        }
+    }
+}
