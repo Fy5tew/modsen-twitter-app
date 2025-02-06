@@ -1,3 +1,13 @@
+import { redirect } from 'next/navigation';
+
+import { Routes } from '@/constants/routes';
+
 export default function Home() {
-    return <div></div>;
+    const user = null;
+
+    if (!user) {
+        redirect(Routes.AUTH);
+    } else {
+        redirect(Routes.HOME);
+    }
 }
