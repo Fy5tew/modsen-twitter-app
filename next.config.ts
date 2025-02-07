@@ -6,7 +6,12 @@ const nextConfig: NextConfig = {
         includePaths: [path.join(__dirname, 'src', 'styles')],
     },
     images: {
-        domains: ['lh3.googleusercontent.com'],
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: '**.googleusercontent.com',
+            },
+        ],
     },
 };
 
