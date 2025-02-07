@@ -13,6 +13,7 @@ html[data-theme='light'] {
     --secondary-color: #{$light-secondary-color};
     --border-color: #{$light-border-color};
     --placeholder-color: #{$light-placeholder-color};
+    --error-color: #{$light-error-color};
 }
 
 html[data-theme='dark'] {
@@ -22,4 +23,5 @@ html[data-theme='dark'] {
     --secondary-color: #{$dark-secondary-color};
     --border-color: #{$dark-border-color};
     --placeholder-color: #{$dark-placeholder-color};
+    --error-color: #{$dark-error-color};
 }
