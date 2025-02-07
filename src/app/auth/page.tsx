@@ -1,14 +1,28 @@
+'use client';
+
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 import Button, { ButtonVariant } from '@/components/Button';
 import Icon from '@/components/Icon';
 import Link from '@/components/Link';
 import Logo from '@/components/Logo';
 import { Routes } from '@/constants/routes';
+import { authByGoogle } from '@/firebase/utils/auth';
 
 import styles from './page.module.scss';
 
 export default function AuthPage() {
+    const router = useRouter();
+
+    const handleGoogleAuth = () => {
+        authByGoogle();
+    };
+
+    const handleEmailSugnUp = () => {
+        router.push(Routes.SIGNUP);
+    };
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.poster}>
@@ -25,10 +39,16 @@ export default function AuthPage() {
                 <h1 className={styles.header}>Happening now</h1>
                 <h2 className={styles.subHeader}>Join Twitter today</h2>
                 <div className={styles.controls}>
-                    <Button variant={ButtonVariant.DEFAULT}>
+                    <Button
+                        variant={ButtonVariant.DEFAULT}
+                        onClick={handleGoogleAuth}
+                    >
                         <Icon src="/google.png" alt="" /> Sign up with Google
                     </Button>
-                    <Button variant={ButtonVariant.DEFAULT}>
+                    <Button
+                        variant={ButtonVariant.DEFAULT}
+                        onClick={handleEmailSugnUp}
+                    >
                         Sign up with email
                     </Button>
                     <p className={styles.agreement}>

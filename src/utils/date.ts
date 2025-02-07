@@ -8,7 +8,6 @@ export function isValidDay(day: number, month: number, year: number) {
 
 export function calculateAge(day: number, month: number, year: number) {
     const birthDate = new Date(year, month - 1, day);
-    console.log(birthDate);
     const today = new Date();
     const age = today.getFullYear() - birthDate.getFullYear();
     const m = today.getMonth() - birthDate.getMonth();

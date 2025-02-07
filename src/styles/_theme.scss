@@ -3,6 +3,13 @@
 :root {
     --font-primary: var(--font-roboto);
     --font-secondary: var(--font-roboto-serif);
+
+    --toastify-color-light: #{$white};
+    --toastify-color-dark: #{$black};
+    --toastify-color-info: #{$blue};
+    --toastify-color-success: #{$green};
+    --toastify-color-warning: #{$yellow};
+    --toastify-color-error: #{$red};
 }
 
 html,

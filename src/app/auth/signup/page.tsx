@@ -10,6 +10,7 @@ import Input from '@/components/Input';
 import Link from '@/components/Link';
 import Logo from '@/components/Logo';
 import Select from '@/components/Select';
+import { authByGoogle, createUser } from '@/firebase/utils/auth';
 import {
     getBirthYearSelectOptions,
     getDaySelectOptions,
@@ -29,9 +30,30 @@ export default function SignupPage() {
         resolver: yupResolver(registerForm),
     });
 
-    const onSubmit: SubmitHandler<IRegisterForm> = (data) => {
-        console.log(data);
-        reset();
+    const onSubmit: SubmitHandler<IRegisterForm> = async ({
+        name,
+        phone,
+        email,
+        password,
+        dateOfBirth: { day, month, year },
+    }) => {
+        if (
+            (
+                await createUser({
+                    name,
+                    phone,
+                    email,
+                    password,
+                    dateOfBirth: new Date(year, month - 1, day),
+                })
+            ).success
+        ) {
+            reset();
+        }
+    };
+
+    const handleGoogleAuth = () => {
+        authByGoogle();
     };
 
     return (
@@ -76,7 +98,11 @@ export default function SignupPage() {
                         {...register('passwordConfirmation')}
                     />
                 </FormField>
-                <Link className={styles.link} href="">
+                <Link
+                    className={styles.link}
+                    href=""
+                    onClick={handleGoogleAuth}
+                >
                     Use Google
                 </Link>
                 <h2 className={styles.header}>Date of birth</h2>

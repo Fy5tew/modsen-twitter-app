@@ -4,6 +4,7 @@ import '@/styles/global.scss';
 import cn from 'classnames';
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
+import { ToastContainer } from 'react-toastify';
 
 import { roboto, robotoSerif } from '@/constants/fonts';
 
@@ -23,6 +24,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <html lang="en" className={cn(roboto.variable, robotoSerif.variable)}>
             <body>
                 <ClientLayout>{children}</ClientLayout>
+                <ToastContainer />
             </body>
         </html>
     );
