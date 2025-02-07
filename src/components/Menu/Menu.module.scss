@@ -1,0 +1,13 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    min-width: 200px;
+    width: fit-content;
+    margin: auto;
+
+    .logo {
+        width: 2.5em;
+        height: 2.5em;
+    }
+}

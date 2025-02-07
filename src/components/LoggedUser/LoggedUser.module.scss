@@ -1,0 +1,33 @@
+@use './_constants' as *;
+
+.wrapper {
+    display: grid;
+    grid-template-columns: 0.5fr 1fr;
+    gap: 1em;
+    font-size: 0.8em;
+
+    .photo {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+
+    .info {
+        display: flex;
+        flex-direction: column;
+
+        .name {
+            font-weight: #{$font-weight-m};
+        }
+
+        .nickname {
+            color: var(--placeholder-color);
+        }
+    }
+
+    .button {
+        grid-column: span 2;
+    }
+}

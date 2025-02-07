@@ -1,7 +1,11 @@
 export enum Routes {
     HOME = '/',
+
     AUTH = '/auth',
     LOGIN = `${Routes.AUTH}/login`,
     SIGNUP = `${Routes.AUTH}/signup`,
-    PROFILE = '/profile',
+
+    APP = '/app',
+    PROFILE = `${Routes.APP}/profile`,
+    FEED = `${Routes.APP}/feed`,
 }

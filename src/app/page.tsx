@@ -18,6 +18,6 @@ export default function Home() {
     if (!user) {
         redirect(Routes.AUTH);
     } else {
-        redirect(Routes.PROFILE);
+        redirect(Routes.APP);
     }
 }
