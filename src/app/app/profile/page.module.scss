@@ -51,3 +51,28 @@
         }
     }
 }
+
+.formWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    min-width: 300px;
+
+    .title {
+        font-weight: #{$font-weight-l};
+        font-size: 1.5em;
+        text-align: center;
+    }
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+
+        .dateInput {
+            display: grid;
+            grid-template-columns: 3fr 1fr 1fr;
+            gap: 1em;
+        }
+    }
+}

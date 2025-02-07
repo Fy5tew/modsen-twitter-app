@@ -2,14 +2,16 @@ import {
     createUserWithEmailAndPassword,
     GoogleAuthProvider,
     signOut as _signOut,
-    updateProfile,
+    updatePassword,
+    updateProfile as _updateProfile,
     User,
 } from 'firebase/auth';
 import { signInWithPopup } from 'firebase/auth';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 import { FIRESTORE_USER_INFO } from '@/constants/firebase';
+import { UserInfo } from '@/types/user';
 import { showSuccess } from '@/utils/notifications';
 
 import { auth, db } from '..';
@@ -34,13 +36,13 @@ export const createUser = APIRequest(
             email,
             password
         );
-        await updateProfile(auth.currentUser as User, {
+        await _updateProfile(auth.currentUser as User, {
             displayName: name,
             photoURL: '',
         });
         await setDoc(doc(db, FIRESTORE_USER_INFO, user.user.uid), {
             phone,
-            dateOfBirth,
+            dateOfBirth: dateOfBirth.getTime(),
         });
         showSuccess('You’ve signed up!');
         return user;
@@ -66,3 +68,46 @@ export const signOut = APIRequest(async () => {
     showSuccess('You’ve signed out!');
     return r;
 });
+
+export const getUserInfo = APIRequest(async (user: User) => {
+    const docRef = doc(db, FIRESTORE_USER_INFO, user.uid);
+    const docSnapshot = await getDoc(docRef);
+
+    if (docSnapshot.exists()) {
+        return docSnapshot.data() as UserInfo;
+    }
+
+    return null;
+});
+
+export const updateProfile = APIRequest(
+    async (
+        user: User,
+        {
+            name,
+            phone,
+            password,
+            dateOfBirth,
+        }: {
+            name: string;
+            phone: string;
+            password: string;
+            dateOfBirth: Date;
+        }
+    ) => {
+        await _updateProfile(user, {
+            displayName: name,
+        });
+        await setDoc(
+            doc(db, FIRESTORE_USER_INFO, user.uid),
+            {
+                phone,
+                dateOfBirth: dateOfBirth.getTime(),
+            },
+            { merge: true }
+        );
+        await updatePassword(user, password);
+        showSuccess('You’ve updated profile!');
+        return user;
+    }
+);

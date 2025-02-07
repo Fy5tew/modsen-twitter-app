@@ -1,16 +1,62 @@
 'use client';
 
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
-import Button from '@/components/Button';
+import Button, { ButtonVariant } from '@/components/Button';
+import Dialog from '@/components/Dialog';
+import FormField from '@/components/FormField';
 import Icon from '@/components/Icon';
+import Input from '@/components/Input';
 import PageLoader from '@/components/PageLoader';
+import Select from '@/components/Select';
 import { auth } from '@/firebase';
+import { updateProfile } from '@/firebase/utils/auth';
+import { useFlag } from '@/hooks/useFlag';
+import {
+    getBirthYearSelectOptions,
+    getDaySelectOptions,
+    getMonthSelectOptions,
+} from '@/utils/date';
+import { IUpdateForm, updateForm } from '@/utils/formShema';
 
 import styles from './page.module.scss';
 
 export default function Profile() {
     const [user, loading] = useAuthState(auth);
+    const { flag: isOpen, enable: open, disable: close } = useFlag(false);
+    const {
+        register,
+        reset,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<IUpdateForm>({
+        resolver: yupResolver(updateForm),
+    });
+
+    const onSubmit: SubmitHandler<IUpdateForm> = async ({
+        name,
+        phone,
+        password,
+        dateOfBirth: { day, month, year },
+    }) => {
+        if (user) {
+            if (
+                (
+                    await updateProfile(user, {
+                        name,
+                        phone,
+                        password,
+                        dateOfBirth: new Date(year, month - 1, day),
+                    })
+                ).success
+            ) {
+                reset();
+                close();
+            }
+        }
+    };
 
     if (loading) {
         return <PageLoader />;
@@ -42,9 +88,75 @@ export default function Profile() {
                     </div>
                 </div>
                 <div>
-                    <Button>Edit profile</Button>
+                    <Button onClick={open}>Edit profile</Button>
                 </div>
             </div>
+            <Dialog open={isOpen} onClose={close}>
+                <div className={styles.formWrapper}>
+                    <h1 className={styles.title}>Edit profile</h1>
+                    <form
+                        className={styles.form}
+                        noValidate
+                        onSubmit={handleSubmit(onSubmit)}
+                    >
+                        <FormField error={errors.name?.message}>
+                            <Input placeholder="Name" {...register('name')} />
+                        </FormField>
+                        <FormField error={errors.phone?.message}>
+                            <Input
+                                placeholder="Phone number"
+                                type="phone"
+                                {...register('phone')}
+                            />
+                        </FormField>
+                        <FormField error={errors.password?.message}>
+                            <Input
+                                placeholder="Password"
+                                type="password"
+                                {...register('password')}
+                            />
+                        </FormField>
+                        <FormField error={errors.passwordConfirmation?.message}>
+                            <Input
+                                placeholder="Confirm password"
+                                type="password"
+                                {...register('passwordConfirmation')}
+                            />
+                        </FormField>
+                        <FormField
+                            error={
+                                errors.dateOfBirth?.message ||
+                                errors.dateOfBirth?.root?.message ||
+                                errors.dateOfBirth?.month?.message ||
+                                errors.dateOfBirth?.day?.message ||
+                                errors.dateOfBirth?.year?.message
+                            }
+                        >
+                            <div className={styles.dateInput}>
+                                <Select
+                                    placeholder="Month"
+                                    options={getMonthSelectOptions()}
+                                    defaultValue={0}
+                                    {...register('dateOfBirth.month')}
+                                />
+                                <Select
+                                    placeholder="Day"
+                                    options={getDaySelectOptions()}
+                                    defaultValue={0}
+                                    {...register('dateOfBirth.day')}
+                                />
+                                <Select
+                                    placeholder="Year"
+                                    options={getBirthYearSelectOptions()}
+                                    defaultValue={0}
+                                    {...register('dateOfBirth.year')}
+                                />
+                            </div>
+                        </FormField>
+                        <Button variant={ButtonVariant.PRIMARY}>Submit</Button>
+                    </form>
+                </div>
+            </Dialog>
         </div>
     );
 }
