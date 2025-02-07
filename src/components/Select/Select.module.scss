@@ -13,16 +13,6 @@
         background-color: var(--background-color);
         width: 100%;
         min-width: max-content;
-
-        &.placeholder {
-            color: var(--placeholder-color);
-        }
-
-        .option {
-            &.placeholder {
-                color: var(--placeholder-color);
-            }
-        }
     }
 
     .icon {

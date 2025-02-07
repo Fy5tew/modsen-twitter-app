@@ -5,7 +5,6 @@ import { SelectHTMLAttributes } from 'react';
 
 import Icon from '@/components/Icon';
 import { useFlag } from '@/hooks/useFlag';
-import { useInternalValue } from '@/hooks/useInternalValue';
 
 import styles from './Select.module.scss';
 
@@ -23,17 +22,12 @@ export default function Select({
     className,
     options = [],
     placeholder = '',
-    value: externalValue,
-    onChange: externalOnChange,
+    defaultValue = placeholder,
+    onChange,
     onMouseDown,
     onBlur,
     ...props
 }: SelectProps) {
-    const [value, onChange] = useInternalValue(
-        placeholder,
-        externalValue,
-        externalOnChange
-    );
     const { flag: isOpened, disable, toggle } = useFlag(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -54,20 +48,14 @@ export default function Select({
     return (
         <div className={styles.wrapper} data-opened={isOpened}>
             <select
-                className={cn(styles.select, className, {
-                    [styles.placeholder]: value === placeholder,
-                })}
-                defaultValue={placeholder}
+                className={cn(styles.select, className)}
+                defaultValue={defaultValue}
                 onChange={handleChange}
                 onMouseDown={handleMouseDown}
                 onBlur={handleBlur}
                 {...props}
             >
-                <option
-                    className={cn(styles.option, styles.placeholder)}
-                    value={placeholder}
-                    disabled
-                >
+                <option className={styles.option} value={defaultValue} disabled>
                     {placeholder}
                 </option>
                 {options.map(({ value, title }) => (
