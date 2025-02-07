@@ -3,20 +3,48 @@
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 import Button from '@/components/Button';
+import Icon from '@/components/Icon';
+import PageLoader from '@/components/PageLoader';
 import { auth } from '@/firebase';
-import { signOut } from '@/firebase/utils/auth';
+
+import styles from './page.module.scss';
 
 export default function Profile() {
-    const [user] = useAuthState(auth);
+    const [user, loading] = useAuthState(auth);
 
-    const handleSignOut = () => signOut();
+    if (loading) {
+        return <PageLoader />;
+    }
 
-    console.log(user);
+    if (!user) {
+        return null;
+    }
 
     return (
-        <>
-            <h1>Profile</h1>
-            <Button onClick={handleSignOut}>Sign Out</Button>
-        </>
+        <div className={styles.wrapper}>
+            <div className={styles.header}>
+                <h1 className={styles.title}>{user.displayName}</h1>
+                <p className={styles.text}>0 Tweets</p>
+            </div>
+            <div className={styles.infoWrapper}>
+                <div className={styles.info}>
+                    <Icon
+                        className={styles.photo}
+                        src={user.photoURL || '/profile.svg'}
+                        alt=""
+                    />
+                    <h1 className={styles.title}>{user.displayName}</h1>
+                    <p className={styles.text}>{user.email}</p>
+                    <p className={styles.bio}>Some bio</p>
+                    <div className={styles.followInfo}>
+                        <p className={styles.text}>0 Following</p>
+                        <p className={styles.text}>0 Followers</p>
+                    </div>
+                </div>
+                <div>
+                    <Button>Edit profile</Button>
+                </div>
+            </div>
+        </div>
     );
 }
