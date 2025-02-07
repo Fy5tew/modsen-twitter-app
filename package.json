@@ -16,10 +16,13 @@
         "prepare": "husky"
     },
     "dependencies": {
+        "@hookform/resolvers": "^3.10.0",
         "classnames": "^2.5.1",
         "next": "15.1.6",
         "react": "^19.0.0",
-        "react-dom": "^19.0.0"
+        "react-dom": "^19.0.0",
+        "react-hook-form": "^7.54.2",
+        "yup": "^1.6.1"
     },
     "devDependencies": {
         "@commitlint/config-conventional": "^19.7.1",
