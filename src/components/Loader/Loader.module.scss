@@ -1,0 +1,30 @@
+@use './_constants' as *;
+
+@keyframes rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.wrapper {
+    --loader-wrapper-size: 1em;
+    --loader-spiner-size: 1em;
+    --loader-spiner-width: 0.2em;
+
+    width: var(--loader-wrapper-size);
+    height: var(--loader-wrapper-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .loader {
+        width: var(--loader-spiner-size);
+        height: var(--loader-spiner-size);
+        border-width: var(--loader-spiner-width);
+        border-style: solid;
+        border-color: var(--placeholder-color);
+        border-top-color: var(--primary-color);
+        border-radius: 50%;
+        animation: rotate 0.7s linear infinite;
+    }
+}

@@ -1,0 +1,64 @@
+name: Code Quality
+
+on:
+    - push
+    - pull_request
+
+jobs:
+    linter:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+
+            - name: Cache Dependencies
+              uses: actions/cache@v3
+              with:
+                  path: ~/.yarn
+                  key: ${{ runner.os }}-node-20-yarn-${{ hashFiles('**/yarn.lock') }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-20-yarn-
+
+            - name: Install Dependencies
+              run: yarn install --frozen-lockfile
+
+            - name: Linter Check
+              run: yarn lint
+
+            - name: Formatter Check
+              run: yarn format
+
+    tests:
+        needs: linter
+        strategy:
+            matrix:
+                os: [ubuntu-20.04, ubuntu-22.04, ubuntu-latest]
+                node: [20, 22, latest]
+        runs-on: ${{ matrix.os }}
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ matrix.node }}
+
+            - name: Cache Dependencies
+              uses: actions/cache@v3
+              with:
+                  path: ~/.yarn
+                  key: ${{ runner.os }}-node-${{ matrix.node }}-yarn-${{ hashFiles('**/yarn.lock') }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-${{ matrix.node }}-yarn-
+
+            - name: Install Dependencies
+              run: yarn install --frozen-lockfile
+
+            - name: Run Tests
+              run: yarn test

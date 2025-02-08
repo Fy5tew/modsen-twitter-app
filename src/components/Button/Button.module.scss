@@ -1,0 +1,41 @@
+@use './_constants' as *;
+
+.button {
+    --fg: var(--text-color);
+    --bg: var(--background-color);
+    --border: var(--border-color);
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+    padding: 1em;
+    border-radius: 2em;
+    font-weight: #{$font-weight-s};
+    cursor: pointer;
+    color: var(--fg);
+    background-color: var(--bg);
+    border: 1px solid var(--border);
+    transition: background-color 0.2s ease-in-out;
+
+    @media (hover: hover) {
+        &:hover {
+            background-color: color-mix(in srgb, var(--bg) 30%, var(--border));
+        }
+    }
+
+    &[data-variant='primary'] {
+        --fg: var(--secondary-color);
+        --bg: var(--primary-color);
+    }
+
+    &[data-variant='secondary'] {
+        --fg: var(--secondary-color);
+        --bg: color-mix(
+            in srgb,
+            var(--primary-color) 50%,
+            var(--background-color)
+        );
+    }
+}
