@@ -8,7 +8,7 @@ import Icon from '@/components/Icon';
 import Link from '@/components/Link';
 import Logo from '@/components/Logo';
 import { Routes } from '@/constants/routes';
-import { authByGoogle } from '@/firebase/utils/auth';
+import { loginByGoogle } from '@/firebase/utils';
 
 import styles from './page.module.scss';
 
@@ -16,7 +16,7 @@ export default function AuthPage() {
     const router = useRouter();
 
     const handleGoogleAuth = () => {
-        authByGoogle();
+        loginByGoogle();
     };
 
     const handleEmailSugnUp = () => {

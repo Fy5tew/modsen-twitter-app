@@ -10,7 +10,8 @@ import Input from '@/components/Input';
 import Link from '@/components/Link';
 import Logo from '@/components/Logo';
 import Select from '@/components/Select';
-import { authByGoogle, createUser } from '@/firebase/utils/auth';
+import { createUser } from '@/firebase/utils';
+import { loginByGoogle } from '@/firebase/utils';
 import {
     getBirthYearSelectOptions,
     getDaySelectOptions,
@@ -44,7 +45,9 @@ export default function SignupPage() {
                     phone,
                     email,
                     password,
-                    dateOfBirth: new Date(year, month - 1, day),
+                    photo: '',
+                    bio: '',
+                    birthDate: new Date(year, month - 1, day).getTime(),
                 })
             ).success
         ) {
@@ -53,7 +56,7 @@ export default function SignupPage() {
     };
 
     const handleGoogleAuth = () => {
-        authByGoogle();
+        loginByGoogle();
     };
 
     return (

@@ -1,7 +1,6 @@
 'use client';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useAuthState } from 'react-firebase-hooks/auth';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import Button, { ButtonVariant } from '@/components/Button';
@@ -11,9 +10,10 @@ import Icon from '@/components/Icon';
 import Input from '@/components/Input';
 import PageLoader from '@/components/PageLoader';
 import Select from '@/components/Select';
-import { auth } from '@/firebase';
-import { updateProfile } from '@/firebase/utils/auth';
+import { updateUserInfo } from '@/firebase/utils';
+import useAuth from '@/hooks/useAuth';
 import { useFlag } from '@/hooks/useFlag';
+import useUser from '@/hooks/useUser';
 import {
     getBirthYearSelectOptions,
     getDaySelectOptions,
@@ -24,7 +24,8 @@ import { IUpdateForm, updateForm } from '@/utils/formShema';
 import styles from './page.module.scss';
 
 export default function Profile() {
-    const [user, loading] = useAuthState(auth);
+    const [user, loading] = useAuth();
+    const userInfo = useUser(user?.uid ?? '');
     const { flag: isOpen, enable: open, disable: close } = useFlag(false);
     const {
         register,
@@ -44,11 +45,12 @@ export default function Profile() {
         if (user) {
             if (
                 (
-                    await updateProfile(user, {
+                    await updateUserInfo(user.uid, {
                         name,
                         phone,
-                        password,
-                        dateOfBirth: new Date(year, month - 1, day),
+                        bio: '',
+                        photo: '',
+                        birthDate: new Date(year, month - 1, day).getTime(),
                     })
                 ).success
             ) {
@@ -62,26 +64,26 @@ export default function Profile() {
         return <PageLoader />;
     }
 
-    if (!user) {
+    if (!user || !userInfo) {
         return null;
     }
 
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
-                <h1 className={styles.title}>{user.displayName}</h1>
+                <h1 className={styles.title}>{userInfo.name}</h1>
                 <p className={styles.text}>0 Tweets</p>
             </div>
             <div className={styles.infoWrapper}>
                 <div className={styles.info}>
                     <Icon
                         className={styles.photo}
-                        src={user.photoURL || '/profile.svg'}
+                        src={userInfo.photo || '/profile.svg'}
                         alt=""
                     />
-                    <h1 className={styles.title}>{user.displayName}</h1>
-                    <p className={styles.text}>{user.email}</p>
-                    <p className={styles.bio}>Some bio</p>
+                    <h1 className={styles.title}>{userInfo.name}</h1>
+                    <p className={styles.text}>{userInfo.email}</p>
+                    <p className={styles.bio}>{userInfo.bio}</p>
                     <div className={styles.followInfo}>
                         <p className={styles.text}>0 Following</p>
                         <p className={styles.text}>0 Followers</p>

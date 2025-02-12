@@ -1,15 +1,14 @@
 'use client';
 
 import { redirect } from 'next/navigation';
-import { useAuthState } from 'react-firebase-hooks/auth';
 
 import { Routes } from '@/constants/routes';
-import { auth } from '@/firebase';
+import useAuth from '@/hooks/useAuth';
 
 import Loader from './loading';
 
 export default function Home() {
-    const [user, loading] = useAuthState(auth);
+    const [user, loading] = useAuth();
 
     if (loading) {
         return <Loader />;

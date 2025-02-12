@@ -9,7 +9,7 @@ import Input from '@/components/Input';
 import Link from '@/components/Link';
 import Logo from '@/components/Logo';
 import { Routes } from '@/constants/routes';
-import { authByEmail } from '@/firebase/utils/auth';
+import { loginByEmail } from '@/firebase/utils';
 import { ILoginForm, loginForm } from '@/utils/formShema';
 
 import styles from './page.module.scss';
@@ -23,7 +23,7 @@ export default function LoginPage() {
     } = useForm<ILoginForm>({ resolver: yupResolver(loginForm) });
 
     const onSubmit: SubmitHandler<ILoginForm> = async ({ login, password }) => {
-        if ((await authByEmail(login, password)).success) {
+        if ((await loginByEmail({ email: login, password })).success) {
             reset();
         }
     };
