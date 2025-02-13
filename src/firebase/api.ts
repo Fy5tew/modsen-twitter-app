@@ -42,9 +42,12 @@ export async function updateUserInfo(
     });
 }
 
-export async function getUser(uid: UserUID): Promise<User> {
+export async function getUser(uid: UserUID): Promise<User | null> {
     const docRef = doc(db, FIRESTORE_USER_INFO, uid);
     const docSnapshot = await getDoc(docRef);
+    if (!docSnapshot.exists()) {
+        return null;
+    }
     const info = docSnapshot.data() as UserInfo;
     return {
         uid,

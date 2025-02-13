@@ -8,7 +8,11 @@ export default function useUser(uid: UserUID): User | null {
 
     useEffect(() => {
         (async () => {
-            setUser(await getUser(uid));
+            try {
+                setUser(await getUser(uid));
+            } catch {
+                setUser(null);
+            }
         })();
     }, [uid]);
 
