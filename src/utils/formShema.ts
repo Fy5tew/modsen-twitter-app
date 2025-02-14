@@ -3,6 +3,7 @@ import { InferType } from 'yup';
 
 import {
     birthDate,
+    contentText,
     email,
     login,
     name,
@@ -14,6 +15,7 @@ import {
 export type ILoginForm = InferType<typeof loginForm>;
 export type IRegisterForm = InferType<typeof registerForm>;
 export type IUpdateForm = InferType<typeof updateForm>;
+export type IContentForm = InferType<typeof contentForm>;
 
 export const loginForm = yup.object({
     login: login,
@@ -35,4 +37,8 @@ export const updateForm = yup.object({
     password: password,
     passwordConfirmation: passwordConfirmation(),
     dateOfBirth: birthDate,
+});
+
+export const contentForm = yup.object({
+    text: contentText,
 });

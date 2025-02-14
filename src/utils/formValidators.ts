@@ -98,3 +98,5 @@ export const passwordConfirmation = (ref = 'password') =>
         .string()
         .oneOf([yup.ref(ref)], 'Passwords must match')
         .required('Password confirmation is required');
+
+export const contentText = yup.string().required('Content is required');
