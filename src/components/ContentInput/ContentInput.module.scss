@@ -1,0 +1,41 @@
+.wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    width: 100%;
+
+    .photo {
+        width: 3em;
+        height: 3em;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+
+    .mainWrapper {
+        flex-grow: 1;
+
+        .input {
+            resize: none;
+            padding: 0.5em;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+            .iconButton {
+                background-color: transparent;
+                border: none;
+                cursor: pointer;
+                padding: 0;
+
+                .icon {
+                    width: 1.5em;
+                    height: 1.5em;
+                }
+            }
+        }
+    }
+}

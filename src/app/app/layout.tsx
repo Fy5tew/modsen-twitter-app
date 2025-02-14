@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 
 import Menu from '@/components/Menu';
+import Sidebar from '@/components/Sidebar';
 
 import styles from './Layout.module.scss';
 
@@ -13,7 +14,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
         <div className={styles.wrapper}>
             <Menu />
             <div>{children}</div>
-            <div></div>
+            <Sidebar />
         </div>
     );
 }

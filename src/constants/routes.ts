@@ -8,4 +8,5 @@ export enum Routes {
     APP = '/app',
     PROFILE = `${Routes.APP}/profile`,
     FEED = `${Routes.APP}/feed`,
+    TWEET = `${Routes.APP}/tweet`,
 }

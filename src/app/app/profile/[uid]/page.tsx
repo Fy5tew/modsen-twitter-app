@@ -5,26 +5,30 @@ import { useParams } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import Button, { ButtonVariant } from '@/components/Button';
+import ContentInput from '@/components/ContentInput';
 import Dialog from '@/components/Dialog';
 import FormField from '@/components/FormField';
 import Icon from '@/components/Icon';
 import Input from '@/components/Input';
 import Select from '@/components/Select';
-import { updateUserInfo } from '@/firebase/utils';
+import Tweet from '@/components/Tweet';
+import { postTweet, updateUserInfo } from '@/firebase/utils';
 import { useFlag } from '@/hooks/useFlag';
 import useUser from '@/hooks/useUser';
+import useUserTweets from '@/hooks/useUserTweets';
 import {
     getBirthYearSelectOptions,
     getDaySelectOptions,
     getMonthSelectOptions,
 } from '@/utils/date';
-import { IUpdateForm, updateForm } from '@/utils/formShema';
+import { IContentForm, IUpdateForm, updateForm } from '@/utils/formShema';
 
 import styles from './page.module.scss';
 
 export default function ProfilePage() {
     const { uid } = useParams();
     const user = useUser(uid as string);
+    const userTweets = useUserTweets(user?.uid || '');
     const { flag: isOpen, enable: open, disable: close } = useFlag(false);
     const {
         register,
@@ -35,7 +39,13 @@ export default function ProfilePage() {
         resolver: yupResolver(updateForm),
     });
 
-    const onSubmit: SubmitHandler<IUpdateForm> = async ({
+    const onPostTweet: (content: IContentForm) => void = async ({ text }) => {
+        if (user) {
+            await postTweet(user.uid, { text });
+        }
+    };
+
+    const onEditSubmit: SubmitHandler<IUpdateForm> = async ({
         name,
         phone,
         password,
@@ -67,7 +77,7 @@ export default function ProfilePage() {
         <div className={styles.wrapper}>
             <div className={styles.header}>
                 <h1 className={styles.title}>{user.name}</h1>
-                <p className={styles.text}>0 Tweets</p>
+                <p className={styles.text}>{userTweets.length} Tweets</p>
             </div>
             <div className={styles.infoWrapper}>
                 <div className={styles.info}>
@@ -88,13 +98,22 @@ export default function ProfilePage() {
                     <Button onClick={open}>Edit profile</Button>
                 </div>
             </div>
+            <ContentInput
+                placeholder="What’s happening"
+                buttonContent="Tweet"
+                onSubmit={onPostTweet}
+            />
+            <h2 className={styles.title}>Tweets</h2>
+            {userTweets.map((tweet) => (
+                <Tweet key={tweet.id} tweet={tweet} />
+            ))}
             <Dialog open={isOpen} onClose={close}>
                 <div className={styles.formWrapper}>
                     <h1 className={styles.title}>Edit profile</h1>
                     <form
                         className={styles.form}
                         noValidate
-                        onSubmit={handleSubmit(onSubmit)}
+                        onSubmit={handleSubmit(onEditSubmit)}
                     >
                         <FormField error={errors.name?.message}>
                             <Input placeholder="Name" {...register('name')} />
