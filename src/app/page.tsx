@@ -3,7 +3,7 @@
 import { redirect } from 'next/navigation';
 
 import { Routes } from '@/constants/routes';
-import useAuth from '@/hooks/useAuth';
+import { useAuth } from '@/hooks/auth';
 
 import Loader from './loading';
 

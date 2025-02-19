@@ -3,21 +3,29 @@
 import Button from '@/components/Button';
 import Icon from '@/components/Icon';
 import Loader from '@/components/Loader';
-import { logout } from '@/firebase/utils';
-import useAuth from '@/hooks/useAuth';
-import useUser from '@/hooks/useUser';
+import { useLogout } from '@/hooks/auth';
+import { useCurrentUser } from '@/hooks/user';
 
 import styles from './LoggedUser.module.scss';
 
 export default function LoggedUser() {
-    const [user, loading] = useAuth();
-    const userInfo = useUser(user?.uid ?? '');
+    const { data: user, isLoading, error } = useCurrentUser();
+    const { mutate: logout } = useLogout();
 
-    if (loading) {
+    const handleLogout = () => {
+        logout();
+    };
+
+    if (isLoading) {
         return <Loader />;
     }
 
-    if (!user || !userInfo) {
+    if (error) {
+        console.error(error);
+        return null;
+    }
+
+    if (!user) {
         return null;
     }
 
@@ -25,14 +33,14 @@ export default function LoggedUser() {
         <div className={styles.wrapper}>
             <Icon
                 className={styles.photo}
-                src={userInfo.photo || '/profile.svg'}
+                src={user.photo || '/profile.svg'}
                 alt=""
             />
             <div className={styles.info}>
-                <span className={styles.name}>{userInfo.name}</span>
-                <span className={styles.nickname}>{userInfo.email}</span>
+                <span className={styles.name}>{user.name}</span>
+                <span className={styles.nickname}>{user.email}</span>
             </div>
-            <Button className={styles.button} onClick={logout}>
+            <Button className={styles.button} onClick={handleLogout}>
                 Log out
             </Button>
         </div>

@@ -7,14 +7,16 @@ import Button, { ButtonVariant } from '@/components/Button';
 import FormField from '@/components/FormField';
 import Input from '@/components/Input';
 import Link from '@/components/Link';
+import Loader from '@/components/Loader';
 import Logo from '@/components/Logo';
 import { Routes } from '@/constants/routes';
-import { loginByEmail } from '@/firebase/utils';
+import { useLoginByEmail } from '@/hooks/auth';
 import { ILoginForm, loginForm } from '@/utils/formShema';
 
 import styles from './page.module.scss';
 
 export default function LoginPage() {
+    const { mutate: loginByEmail, isPending } = useLoginByEmail();
     const {
         register,
         reset,
@@ -23,9 +25,7 @@ export default function LoginPage() {
     } = useForm<ILoginForm>({ resolver: yupResolver(loginForm) });
 
     const onSubmit: SubmitHandler<ILoginForm> = async ({ login, password }) => {
-        if ((await loginByEmail({ email: login, password })).success) {
-            reset();
-        }
+        loginByEmail({ email: login, password }, { onSuccess: () => reset() });
     };
 
     return (
@@ -51,7 +51,12 @@ export default function LoginPage() {
                         {...register('password', { required: true })}
                     />
                 </FormField>
-                <Button type="submit" variant={ButtonVariant.PRIMARY}>
+                <Button
+                    type="submit"
+                    variant={ButtonVariant.PRIMARY}
+                    disabled={isPending}
+                >
+                    {isPending && <Loader />}
                     Log In
                 </Button>
             </form>

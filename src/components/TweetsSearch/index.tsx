@@ -1,42 +1,39 @@
 'use client';
 
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, ReactNode, useState } from 'react';
 
+import PageLoader from '@/components/PageLoader';
 import Search from '@/components/Search';
 import Tweet from '@/components/Tweet';
-import { searchTweets } from '@/firebase/utils';
+import { useSearchTweets } from '@/hooks/tweet';
 import useDebounce from '@/hooks/useDebounce';
-import { Tweet as ITweet } from '@/types/tweet';
 
 const MAX_SEARCH_TWEETS = 5;
 
 export default function TweetsSearch() {
     const [search, setSearch] = useState('');
     const debouncedSearch = useDebounce(search);
-    const [tweets, setTweets] = useState<ITweet[]>([]);
+    const {
+        data: tweets,
+        isLoading,
+        error,
+    } = useSearchTweets(debouncedSearch, MAX_SEARCH_TWEETS);
 
     const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
         setSearch(event.target.value);
     };
 
-    useEffect(() => {
-        (async () => {
-            const response = await searchTweets(
-                debouncedSearch,
-                MAX_SEARCH_TWEETS
-            );
-            if (response.success) {
-                setTweets(response.data);
-            } else {
-                setTweets([]);
-            }
-        })();
-    }, [debouncedSearch]);
-
-    const result =
-        debouncedSearch && !tweets.length
-            ? 'No tweets found'
-            : tweets.map((tweet) => <Tweet key={tweet.id} tweet={tweet} />);
+    let result: ReactNode;
+    if (isLoading) {
+        result = debouncedSearch ? <PageLoader /> : null;
+    } else if (error) {
+        console.error(error);
+        result = 'Something went wrong...';
+    } else if (debouncedSearch && !tweets?.length) {
+        result = 'No tweets found';
+    } else {
+        result = tweets!.map((tweet) => <Tweet key={tweet.id} tweet={tweet} />);
+    }
 
     return (
         <Search

@@ -10,12 +10,14 @@ import Dialog from '@/components/Dialog';
 import FormField from '@/components/FormField';
 import Icon from '@/components/Icon';
 import Input from '@/components/Input';
+import Loader from '@/components/Loader';
+import PageLoader from '@/components/PageLoader';
 import Select from '@/components/Select';
 import Tweet from '@/components/Tweet';
-import { postTweet, updateUserInfo } from '@/firebase/utils';
+import { useAuth } from '@/hooks/auth';
+import { usePostTweet, useUserTweets } from '@/hooks/tweet';
 import { useFlag } from '@/hooks/useFlag';
-import useUser from '@/hooks/useUser';
-import useUserTweets from '@/hooks/useUserTweets';
+import { useUpdateInfo, useUser } from '@/hooks/user';
 import {
     getBirthYearSelectOptions,
     getDaySelectOptions,
@@ -27,8 +29,9 @@ import styles from './page.module.scss';
 
 export default function ProfilePage() {
     const { uid } = useParams();
-    const user = useUser(uid as string);
-    const userTweets = useUserTweets(user?.uid || '');
+    const [authUser] = useAuth();
+    const { data: user, isLoading, error } = useUser(uid as string);
+    const { data: tweets } = useUserTweets(user?.uid || '');
     const { flag: isOpen, enable: open, disable: close } = useFlag(false);
     const {
         register,
@@ -38,10 +41,13 @@ export default function ProfilePage() {
     } = useForm<IUpdateForm>({
         resolver: yupResolver(updateForm),
     });
+    const { mutate: updateInfo, isPending } = useUpdateInfo();
+    const { mutate: postTweet } = usePostTweet();
+    const isCurrentUser = !!user && !!authUser && user.uid === authUser.uid;
 
     const onPostTweet: (content: IContentForm) => void = async ({ text }) => {
         if (user) {
-            await postTweet(user.uid, { text });
+            postTweet({ authorUid: user.uid, tweet: { text } });
         }
     };
 
@@ -52,22 +58,33 @@ export default function ProfilePage() {
         dateOfBirth: { day, month, year },
     }) => {
         if (user) {
-            if (
-                (
-                    await updateUserInfo(user.uid, {
+            updateInfo(
+                {
+                    uid: user.uid,
+                    info: {
                         name,
                         phone,
-                        bio: '',
-                        photo: '',
                         birthDate: new Date(year, month - 1, day).getTime(),
-                    })
-                ).success
-            ) {
-                reset();
-                close();
-            }
+                    },
+                },
+                {
+                    onSuccess: () => {
+                        reset();
+                        close();
+                    },
+                }
+            );
         }
     };
+
+    if (isLoading) {
+        return <PageLoader />;
+    }
+
+    if (error) {
+        console.error(error);
+        return null;
+    }
 
     if (!user) {
         return null;
@@ -77,7 +94,11 @@ export default function ProfilePage() {
         <div className={styles.wrapper}>
             <div className={styles.header}>
                 <h1 className={styles.title}>{user.name}</h1>
-                <p className={styles.text}>{userTweets.length} Tweets</p>
+                {tweets ? (
+                    <p className={styles.text}>{tweets.length} Tweets</p>
+                ) : (
+                    <Loader />
+                )}
             </div>
             <div className={styles.infoWrapper}>
                 <div className={styles.info}>
@@ -95,18 +116,24 @@ export default function ProfilePage() {
                     </div>
                 </div>
                 <div>
-                    <Button onClick={open}>Edit profile</Button>
+                    {isCurrentUser && (
+                        <Button onClick={open}>Edit profile</Button>
+                    )}
                 </div>
             </div>
-            <ContentInput
-                placeholder="What’s happening"
-                buttonContent="Tweet"
-                onSubmit={onPostTweet}
-            />
+            {isCurrentUser && (
+                <ContentInput
+                    placeholder="What’s happening"
+                    buttonContent="Tweet"
+                    onSubmit={onPostTweet}
+                />
+            )}
             <h2 className={styles.title}>Tweets</h2>
-            {userTweets.map((tweet) => (
-                <Tweet key={tweet.id} tweet={tweet} />
-            ))}
+            {tweets ? (
+                tweets.map((tweet) => <Tweet key={tweet.id} tweet={tweet} />)
+            ) : (
+                <PageLoader />
+            )}
             <Dialog open={isOpen} onClose={close}>
                 <div className={styles.formWrapper}>
                     <h1 className={styles.title}>Edit profile</h1>
@@ -169,7 +196,13 @@ export default function ProfilePage() {
                                 />
                             </div>
                         </FormField>
-                        <Button variant={ButtonVariant.PRIMARY}>Submit</Button>
+                        <Button
+                            variant={ButtonVariant.PRIMARY}
+                            disabled={isPending}
+                        >
+                            {isPending && <Loader />}
+                            Submit
+                        </Button>
                     </form>
                 </div>
             </Dialog>

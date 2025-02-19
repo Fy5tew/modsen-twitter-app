@@ -1,43 +1,27 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { Fragment } from 'react';
 
 import Button from '@/components/Button';
 import PageLoader from '@/components/PageLoader';
 import Tweet from '@/components/Tweet';
-import { getFeed } from '@/firebase/utils';
-import useAuth from '@/hooks/useAuth';
-import { Tweet as ITweet } from '@/types/tweet';
+import { useAuth } from '@/hooks/auth';
+import { useFeed } from '@/hooks/tweet';
 
 const FEED_TWEETS_LIMIT = 5;
 
 export default function Feed() {
     const [user, loading] = useAuth();
-    const [tweets, setTweets] = useState<ITweet[]>([]);
-    const [isLoadedAll, setLoadedAll] = useState(false);
-    const offsetRef = useRef(0);
+    const {
+        data: tweetsFeed,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+    } = useFeed(user?.uid ?? '', FEED_TWEETS_LIMIT);
 
-    const loadTweets = useCallback(async () => {
-        if (!user || isLoadedAll) {
-            return;
-        }
-        const response = await getFeed(
-            user.uid,
-            FEED_TWEETS_LIMIT,
-            offsetRef.current
-        );
-        if (response.success) {
-            if (response.data.length < FEED_TWEETS_LIMIT) {
-                setLoadedAll(true);
-            }
-            setTweets((prev) => [...prev, ...response.data]);
-            offsetRef.current += response.data.length;
-        }
-    }, [user, isLoadedAll]);
-
-    useEffect(() => {
-        loadTweets();
-    }, [loadTweets]);
+    const handleLoadTweets = () => {
+        fetchNextPage();
+    };
 
     if (loading) {
         return <PageLoader />;
@@ -50,10 +34,18 @@ export default function Feed() {
     return (
         <>
             <h1>Feed</h1>
-            {tweets.map((tweet) => (
-                <Tweet key={tweet.id} tweet={tweet} />
+            {tweetsFeed?.pages.map((page, pageIndex) => (
+                <Fragment key={pageIndex}>
+                    {page.map((tweet) => (
+                        <Tweet key={tweet.id} tweet={tweet} />
+                    ))}
+                </Fragment>
             ))}
-            {!isLoadedAll && <Button onClick={loadTweets}>Load more...</Button>}
+            {hasNextPage && (
+                <Button onClick={handleLoadTweets}>
+                    {isFetchingNextPage ? 'Loading...' : 'Load more...'}
+                </Button>
+            )}
         </>
     );
 }

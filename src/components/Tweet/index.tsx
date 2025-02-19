@@ -2,10 +2,13 @@ import Link from 'next/link';
 
 import Icon from '@/components/Icon';
 import { Routes } from '@/constants/routes';
-import { addTweetLike, deleteTweet } from '@/firebase/utils';
-import { removeTweetLike } from '@/firebase/utils';
-import useAuth from '@/hooks/useAuth';
-import useUser from '@/hooks/useUser';
+import { useAuth } from '@/hooks/auth';
+import {
+    useAddTweetLike,
+    useDeleteTweet,
+    useRemoveTweetLike,
+} from '@/hooks/tweet';
+import { useUser } from '@/hooks/user';
 import { Tweet as ITweet } from '@/types/tweet';
 
 import Loader from '../Loader';
@@ -26,24 +29,41 @@ export default function Tweet({
     refType = TweetRefType.TWEET,
 }: TweetProps) {
     const [currentUser] = useAuth();
-    const user = useUser(tweet.userUid);
+    const { data: user, isLoading, error } = useUser(tweet.userUid);
+    const { mutate: deleteTweet, isPending: isDeletionPending } =
+        useDeleteTweet();
+    const { mutate: addTweetLike, isPending: isAddLikePending } =
+        useAddTweetLike();
+    const { mutate: removeTweetLike, isPending: isRemoveLikePending } =
+        useRemoveTweetLike();
     const isOwner = currentUser?.uid === user?.uid;
     const isLiked = tweet.likedBy.includes(currentUser?.uid ?? '');
 
     const handleLikeClick = async () => {
         if (isLiked) {
-            await removeTweetLike(tweet.id, currentUser?.uid || '');
+            removeTweetLike({
+                tweetId: tweet.id,
+                userUid: currentUser?.uid || '',
+            });
         } else {
-            await addTweetLike(tweet.id, currentUser?.uid || '');
+            addTweetLike({
+                tweetId: tweet.id,
+                userUid: currentUser?.uid || '',
+            });
         }
     };
 
     const handleDeleteClick = async () => {
-        await deleteTweet(tweet.id);
+        deleteTweet({ tweetId: tweet.id });
     };
 
-    if (!user) {
+    if (isLoading) {
         return <Loader />;
+    }
+
+    if (error) {
+        console.error(error);
+        return null;
     }
 
     let href: string;
@@ -57,11 +77,13 @@ export default function Tweet({
 
     return (
         <div className={styles.wrapper}>
-            <Icon className={styles.photo} src={user.photo} alt="" />
+            <Icon className={styles.photo} src={user?.photo ?? ''} alt="" />
             <div>
                 <Link href={href} className={styles.info}>
-                    <span className={styles.name}>{user.name}</span>
-                    <span className={styles.username}>{user.email}</span>
+                    <span className={styles.name}>
+                        {user?.name ?? 'Deleted Acount'}
+                    </span>
+                    <span className={styles.username}>{user?.email}</span>
                     <span className={styles.date}>
                         {new Date(tweet.date).toDateString()}
                     </span>
@@ -71,6 +93,7 @@ export default function Tweet({
                     <button
                         className={styles.iconButton}
                         onClick={handleLikeClick}
+                        disabled={isAddLikePending || isRemoveLikePending}
                     >
                         <Icon
                             src={isLiked ? '/likeFilled.svg' : '/likeEmpty.svg'}
@@ -82,6 +105,7 @@ export default function Tweet({
                         <button
                             className={styles.iconButton}
                             onClick={handleDeleteClick}
+                            disabled={isDeletionPending}
                         >
                             <Icon src="/trashbin.svg" alt="" />
                         </button>

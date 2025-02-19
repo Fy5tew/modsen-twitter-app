@@ -7,6 +7,7 @@ import { ReactNode } from 'react';
 import { ToastContainer } from 'react-toastify';
 
 import { roboto, robotoSerif } from '@/constants/fonts';
+import { ReactQueryProvider } from '@/providers/ReactQueryProvider';
 
 import ClientLayout from './ClientLayout';
 
@@ -23,8 +24,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
     return (
         <html lang="en" className={cn(roboto.variable, robotoSerif.variable)}>
             <body>
-                <ClientLayout>{children}</ClientLayout>
-                <ToastContainer />
+                <ReactQueryProvider>
+                    <ClientLayout>{children}</ClientLayout>
+                    <ToastContainer />
+                </ReactQueryProvider>
             </body>
         </html>
     );

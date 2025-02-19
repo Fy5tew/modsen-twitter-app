@@ -8,10 +8,10 @@ import Button, { ButtonVariant } from '@/components/Button';
 import FormField from '@/components/FormField';
 import Input from '@/components/Input';
 import Link from '@/components/Link';
+import Loader from '@/components/Loader';
 import Logo from '@/components/Logo';
 import Select from '@/components/Select';
-import { createUser } from '@/firebase/utils';
-import { loginByGoogle } from '@/firebase/utils';
+import { useCreateUser, useLoginByGoogle } from '@/hooks/auth';
 import {
     getBirthYearSelectOptions,
     getDaySelectOptions,
@@ -22,6 +22,8 @@ import { IRegisterForm, registerForm } from '@/utils/formShema';
 import styles from './page.module.scss';
 
 export default function SignupPage() {
+    const { mutate: createUser, isPending } = useCreateUser();
+    const { mutate: loginByGoogle } = useLoginByGoogle();
     const {
         register,
         reset,
@@ -38,21 +40,20 @@ export default function SignupPage() {
         password,
         dateOfBirth: { day, month, year },
     }) => {
-        if (
-            (
-                await createUser({
-                    name,
-                    phone,
-                    email,
-                    password,
-                    photo: '',
-                    bio: '',
-                    birthDate: new Date(year, month - 1, day).getTime(),
-                })
-            ).success
-        ) {
-            reset();
-        }
+        createUser(
+            {
+                name,
+                phone,
+                email,
+                password,
+                photo: '',
+                bio: '',
+                birthDate: new Date(year, month - 1, day).getTime(),
+            },
+            {
+                onSuccess: () => reset(),
+            }
+        );
     };
 
     const handleGoogleAuth = () => {
@@ -144,7 +145,12 @@ export default function SignupPage() {
                         />
                     </div>
                 </FormField>
-                <Button type="submit" variant={ButtonVariant.PRIMARY}>
+                <Button
+                    type="submit"
+                    variant={ButtonVariant.PRIMARY}
+                    disabled={isPending}
+                >
+                    {isPending && <Loader />}
                     Next
                 </Button>
             </form>

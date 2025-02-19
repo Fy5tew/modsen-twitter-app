@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 
 import PageLoader from '@/components/PageLoader';
 import { Routes } from '@/constants/routes';
-import useAuth from '@/hooks/useAuth';
+import { useAuth } from '@/hooks/auth';
 
 export default function ProfilePage() {
     const [user, loading] = useAuth();

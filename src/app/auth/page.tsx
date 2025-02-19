@@ -8,11 +8,12 @@ import Icon from '@/components/Icon';
 import Link from '@/components/Link';
 import Logo from '@/components/Logo';
 import { Routes } from '@/constants/routes';
-import { loginByGoogle } from '@/firebase/utils';
+import { useLoginByGoogle } from '@/hooks/auth';
 
 import styles from './page.module.scss';
 
 export default function AuthPage() {
+    const { mutate: loginByGoogle } = useLoginByGoogle();
     const router = useRouter();
 
     const handleGoogleAuth = () => {
