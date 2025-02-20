@@ -1,9 +1,12 @@
-import TweetsSearch from '@/components/TweetsSearch';
+import TwitterSearch from '@/components/TwitterSearch';
+
+import ThemeSwitch from '../ThemeSwitch';
 
 export default function Sidebar() {
     return (
         <div>
-            <TweetsSearch />
+            <ThemeSwitch />
+            <TwitterSearch />
         </div>
     );
 }
