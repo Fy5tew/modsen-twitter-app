@@ -100,3 +100,5 @@ export const passwordConfirmation = (ref = 'password') =>
         .required('Password confirmation is required');
 
 export const contentText = yup.string().required('Content is required');
+
+export const contentImage = yup.string().required().nullable().default(null);

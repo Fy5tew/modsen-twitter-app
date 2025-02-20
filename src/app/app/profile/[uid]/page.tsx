@@ -45,9 +45,12 @@ export default function ProfilePage() {
     const { mutate: postTweet } = usePostTweet();
     const isCurrentUser = !!user && !!authUser && user.uid === authUser.uid;
 
-    const onPostTweet: (content: IContentForm) => void = async ({ text }) => {
+    const onPostTweet: (content: IContentForm) => void = async ({
+        text,
+        image,
+    }) => {
         if (user) {
-            postTweet({ authorUid: user.uid, tweet: { text } });
+            postTweet({ authorUid: user.uid, tweet: { text, image } });
         }
     };
 

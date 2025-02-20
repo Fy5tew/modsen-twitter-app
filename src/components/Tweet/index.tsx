@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 import Icon from '@/components/Icon';
@@ -78,7 +79,7 @@ export default function Tweet({
     return (
         <div className={styles.wrapper}>
             <Icon className={styles.photo} src={user?.photo ?? ''} alt="" />
-            <div>
+            <div className={styles.contentWrapper}>
                 <Link href={href} className={styles.info}>
                     <span className={styles.name}>
                         {user?.name ?? 'Deleted Acount'}
@@ -89,6 +90,18 @@ export default function Tweet({
                     </span>
                 </Link>
                 <p className={styles.content}>{tweet.text}</p>
+                {tweet.image && (
+                    <div className={styles.imageWrapper}>
+                        <Image
+                            className={styles.image}
+                            src={tweet.image ?? ''}
+                            alt=""
+                            width={16}
+                            height={9}
+                            layout="responsive"
+                        />
+                    </div>
+                )}
                 <div className={styles.controls}>
                     <button
                         className={styles.iconButton}

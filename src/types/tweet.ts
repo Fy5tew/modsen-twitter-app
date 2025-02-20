@@ -4,6 +4,7 @@ export type TweetID = string;
 
 export interface TweetBase {
     text: string;
+    image: string | null;
 }
 
 export interface ExtendedTweet extends TweetBase {

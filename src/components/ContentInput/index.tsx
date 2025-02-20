@@ -1,8 +1,10 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import Image from 'next/image';
 import { ReactNode } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import Button, { ButtonVariant } from '@/components/Button';
+import FileInput from '@/components/FileInput';
 import FormField from '@/components/FormField';
 import Icon from '@/components/Icon';
 import Loader from '@/components/Loader';
@@ -26,6 +28,8 @@ export default function ContentInput({
     const {
         register,
         reset,
+        watch,
+        setValue,
         handleSubmit,
         formState: { errors },
     } = useForm<IContentForm>({
@@ -35,6 +39,10 @@ export default function ContentInput({
     const onSubmit: SubmitHandler<IContentForm> = (content) => {
         submitHandler(content);
         reset();
+    };
+
+    const onImageReset = () => {
+        reset({ image: null });
     };
 
     if (isLoading) {
@@ -61,14 +69,31 @@ export default function ContentInput({
                         {...register('text')}
                     />
                 </FormField>
+                {watch('image') && (
+                    <div className={styles.previewWrapper}>
+                        <Image
+                            className={styles.image}
+                            src={watch('image') ?? ''}
+                            alt=""
+                            fill
+                        />
+                        <button
+                            className={styles.imageReset}
+                            type="button"
+                            onClick={onImageReset}
+                        >
+                            <Icon src="/cross.svg" alt="Delete image" />
+                        </button>
+                    </div>
+                )}
                 <div className={styles.controls}>
-                    <button type="button" className={styles.iconButton}>
+                    <FileInput<IContentForm> name="image" setValue={setValue}>
                         <Icon
                             className={styles.icon}
                             src="/mediaButton.svg"
                             alt=""
                         />
-                    </button>
+                    </FileInput>
                     <Button variant={ButtonVariant.SECONDARY}>
                         {buttonContent}
                     </Button>

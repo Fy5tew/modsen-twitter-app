@@ -3,6 +3,7 @@ import { InferType } from 'yup';
 
 import {
     birthDate,
+    contentImage,
     contentText,
     email,
     login,
@@ -41,4 +42,5 @@ export const updateForm = yup.object({
 
 export const contentForm = yup.object({
     text: contentText,
+    image: contentImage,
 });
