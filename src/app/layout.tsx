@@ -4,8 +4,8 @@ import '@/styles/global.scss';
 import cn from 'classnames';
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
-import { ToastContainer } from 'react-toastify';
 
+import ToastContainer from '@/components/ToastContainer';
 import { roboto, robotoSerif } from '@/constants/fonts';
 import { ReactQueryProvider } from '@/providers/ReactQueryProvider';
 import ThemeProvider from '@/providers/theme';
