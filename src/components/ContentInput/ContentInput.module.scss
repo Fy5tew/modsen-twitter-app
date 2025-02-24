@@ -44,6 +44,10 @@
         .input {
             resize: none;
             padding: 0.5em;
+            color: inherit;
+            background-color: inherit;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
         }
 
         .controls {

@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { USER_QUERY_KEY } from '@/constants/queryKeys';
+import { SEARCH_USERS_QUERY_KEY, USER_QUERY_KEY } from '@/constants/queryKeys';
 import userService from '@/firebase/services/user';
 import { UserUID } from '@/types/user';
 import { showError, showSuccess } from '@/utils/notifications';
@@ -17,6 +17,13 @@ export function useUser(userUid: UserUID) {
 export function useCurrentUser() {
     const [authUser] = useAuth();
     return useUser(authUser?.uid || '');
+}
+
+export function useSearchUsers(searchQuery: string, limitCount: number) {
+    return useQuery({
+        queryKey: [SEARCH_USERS_QUERY_KEY, searchQuery, limitCount],
+        queryFn: () => userService.search({ searchQuery, limitCount }),
+    });
 }
 
 export function useUpdateInfo() {
