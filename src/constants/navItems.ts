@@ -1,44 +1,52 @@
+import { IconSources } from '@/types/icon';
+
 import { Routes } from './routes';
 
-export const NAV_ITEMS = [
+interface NavItem {
+    title: string;
+    href: string;
+    icon: keyof IconSources;
+}
+
+export const NAV_ITEMS: NavItem[] = [
     {
         title: 'Home',
         href: Routes.HOME,
-        icon: '/home.svg',
+        icon: 'home',
     },
     {
         title: 'Explore',
         href: Routes.FEED,
-        icon: '/explore.svg',
+        icon: 'explore',
     },
     {
         title: 'Notifications',
         href: '',
-        icon: '/notifications.svg',
+        icon: 'notification',
     },
     {
         title: 'Messages',
         href: '',
-        icon: '/messages.svg',
+        icon: 'message',
     },
     {
         title: 'Bookmarks',
         href: '',
-        icon: '/bookmarks.svg',
+        icon: 'bookmark',
     },
     {
         title: 'Lists',
         href: '',
-        icon: '/lists.svg',
+        icon: 'list',
     },
     {
         title: 'Profile',
         href: Routes.HOME,
-        icon: '/profile.svg',
+        icon: 'profile',
     },
     {
         title: 'More',
         href: '',
-        icon: '/more.svg',
+        icon: 'more',
     },
 ];

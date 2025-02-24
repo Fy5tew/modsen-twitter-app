@@ -10,6 +10,7 @@ import {
     useRemoveTweetLike,
 } from '@/hooks/tweet';
 import { useUser } from '@/hooks/user';
+import { useIcons } from '@/providers/icon';
 import { Tweet as ITweet } from '@/types/tweet';
 
 import Loader from '../Loader';
@@ -29,6 +30,7 @@ export default function Tweet({
     tweet,
     refType = TweetRefType.TWEET,
 }: TweetProps) {
+    const icons = useIcons();
     const [currentUser] = useAuth();
     const { data: user, isLoading, error } = useUser(tweet.userUid);
     const { mutate: deleteTweet, isPending: isDeletionPending } =
@@ -109,10 +111,12 @@ export default function Tweet({
                         disabled={isAddLikePending || isRemoveLikePending}
                     >
                         <Icon
-                            src={isLiked ? '/likeFilled.svg' : '/likeEmpty.svg'}
+                            src={isLiked ? icons.likeFilled : icons.likeEmpty}
                             alt=""
                         />
-                        <span>{tweet.likedBy.length}</span>
+                        <span className={styles.buttonText}>
+                            {tweet.likedBy.length}
+                        </span>
                     </button>
                     {isOwner && (
                         <button
@@ -120,7 +124,7 @@ export default function Tweet({
                             onClick={handleDeleteClick}
                             disabled={isDeletionPending}
                         >
-                            <Icon src="/trashbin.svg" alt="" />
+                            <Icon src={icons.trashbin} alt="" />
                         </button>
                     )}
                 </div>

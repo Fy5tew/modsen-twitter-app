@@ -9,6 +9,7 @@ import FormField from '@/components/FormField';
 import Icon from '@/components/Icon';
 import Loader from '@/components/Loader';
 import { useCurrentUser } from '@/hooks/user';
+import { useIcons } from '@/providers/icon';
 import { contentForm, IContentForm } from '@/utils/formShema';
 
 import styles from './ContentInput.module.scss';
@@ -24,6 +25,7 @@ export default function ContentInput({
     placeholder,
     onSubmit: submitHandler = () => {},
 }: ContentInputProps) {
+    const icons = useIcons();
     const { data: user, isLoading, error } = useCurrentUser();
     const {
         register,
@@ -82,7 +84,7 @@ export default function ContentInput({
                             type="button"
                             onClick={onImageReset}
                         >
-                            <Icon src="/cross.svg" alt="Delete image" />
+                            <Icon src={icons.cross} alt="Delete image" />
                         </button>
                     </div>
                 )}
@@ -90,7 +92,7 @@ export default function ContentInput({
                     <FileInput<IContentForm> name="image" setValue={setValue}>
                         <Icon
                             className={styles.icon}
-                            src="/mediaButton.svg"
+                            src={icons.media}
                             alt=""
                         />
                     </FileInput>

@@ -5,6 +5,7 @@ import { SelectHTMLAttributes } from 'react';
 
 import Icon from '@/components/Icon';
 import { useFlag } from '@/hooks/useFlag';
+import { useIcons } from '@/providers/icon';
 
 import styles from './Select.module.scss';
 
@@ -28,6 +29,7 @@ export default function Select({
     onBlur,
     ...props
 }: SelectProps) {
+    const icons = useIcons();
     const { flag: isOpened, disable, toggle } = useFlag(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -68,7 +70,7 @@ export default function Select({
                     </option>
                 ))}
             </select>
-            <Icon className={styles.icon} src="/chevron.svg" alt="" />
+            <Icon className={styles.icon} src={icons.chevron} alt="" />
         </div>
     );
 }

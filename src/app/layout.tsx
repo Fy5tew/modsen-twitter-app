@@ -7,6 +7,7 @@ import { ReactNode } from 'react';
 
 import ToastContainer from '@/components/ToastContainer';
 import { roboto, robotoSerif } from '@/constants/fonts';
+import IconProvider from '@/providers/icon';
 import { ReactQueryProvider } from '@/providers/ReactQueryProvider';
 import ThemeProvider from '@/providers/theme';
 
@@ -27,8 +28,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <body>
                 <ReactQueryProvider>
                     <ThemeProvider>
-                        <ClientLayout>{children}</ClientLayout>
-                        <ToastContainer />
+                        <IconProvider>
+                            <ClientLayout>{children}</ClientLayout>
+                            <ToastContainer />
+                        </IconProvider>
                     </ThemeProvider>
                 </ReactQueryProvider>
             </body>
