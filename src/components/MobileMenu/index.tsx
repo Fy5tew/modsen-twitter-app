@@ -5,13 +5,17 @@ import Logo from '@/components/Logo';
 import Navigation from '@/components/Navigation';
 import ThemeSwitch from '@/components/ThemeSwitch';
 import TwitterSearch from '@/components/TwitterSearch';
+import useMounted from '@/hooks/useMounted';
 import { useMenu } from '@/providers/menu';
 
 import MenuButton from '../MenuButton';
 import styles from './MobileMenu.module.scss';
 
 export default function MobileMenu() {
+    const mounted = useMounted();
     const { isOpen, close } = useMenu();
+
+    if (!mounted) return null;
 
     return createPortal(
         <>
