@@ -1,0 +1,41 @@
+.wrapper {
+    position: relative;
+
+    .inputWrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        background-color: var(--background-layer-color);
+        border-radius: 2em;
+        border: 1px solid var(--border-color);
+        padding: 0 1em;
+        overflow: hidden;
+
+        .icon {
+            width: 1.5em;
+            height: 1.5em;
+        }
+
+        .input {
+            flex-grow: 1;
+            background-color: inherit;
+            border: none;
+        }
+    }
+
+    .resultWrapper {
+        position: absolute;
+        top: calc(100% + 1em);
+        left: 0;
+        right: 0;
+        z-index: 10;
+
+        background-color: var(--background-layer-color);
+        padding: 1.5em;
+        border-radius: 1em;
+
+        &:empty {
+            display: none;
+        }
+    }
+}

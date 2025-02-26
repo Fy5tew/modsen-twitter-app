@@ -1,0 +1,11 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2em;
+
+    .error {
+        color: var(--error-color);
+        white-space: pre;
+        font-size: 0.8em;
+    }
+}

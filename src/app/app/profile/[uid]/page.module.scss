@@ -1,0 +1,65 @@
+@use './_constants' as *;
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+
+    .title {
+        font-weight: #{$font-weight-l};
+    }
+
+    .text {
+        color: var(--placeholder-color);
+    }
+
+    .header {
+        .title {
+            font-size: 1.5em;
+        }
+    }
+
+    .infoWrapper {
+        display: flex;
+        flex-direction: row;
+        gap: 2em;
+        justify-content: space-between;
+    }
+
+    .info {
+        .photo {
+            width: 10em;
+            height: 10em;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .title {
+            font-size: 2em;
+        }
+
+        .bio {
+            margin: 1em 0;
+        }
+
+        .followInfo {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 1em;
+            margin: 2em 0;
+        }
+    }
+}
+
+.formWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+
+    .title {
+        font-weight: #{$font-weight-l};
+        font-size: 1.5em;
+        text-align: center;
+    }
+}

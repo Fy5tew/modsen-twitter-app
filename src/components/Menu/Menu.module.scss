@@ -1,0 +1,21 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 3em;
+    min-width: 200px;
+    width: fit-content;
+    height: 100%;
+
+    .logo {
+        width: 2.5em;
+        height: 2.5em;
+    }
+}
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5em;
+    min-width: 500px;
+}

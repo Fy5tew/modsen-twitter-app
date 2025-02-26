@@ -1,0 +1,68 @@
+@use './mixins' as *;
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+
+    .photoInput {
+        display: flex;
+        align-items: center;
+        gap: 2em;
+
+        .photoWrapper {
+            position: relative;
+            width: 5em;
+            height: 5em;
+
+            .photo {
+                border-radius: 50%;
+                object-fit: cover;
+            }
+        }
+
+        .inputButton {
+            cursor: pointer;
+
+            @media (hover: hover) {
+                &:hover {
+                    color: var(--primary-color);
+                }
+            }
+        }
+    }
+
+    .dateInput {
+        display: grid;
+        grid-template-columns: 3fr 1fr 1fr;
+        gap: 1em;
+
+        @include breakpoint(mobile) {
+            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr;
+
+            & :first-child {
+                grid-column: span 2;
+            }
+        }
+    }
+
+    .controls {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 2em;
+
+        & > * {
+            flex-grow: 1;
+        }
+    }
+
+    .passwordChangeButton {
+        background-color: var(--error-color);
+    }
+
+    @include breakpoint(mobile) {
+        min-width: 200px;
+    }
+}

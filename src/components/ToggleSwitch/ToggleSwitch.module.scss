@@ -1,0 +1,38 @@
+.toggleSwitch {
+    $baseSize: 1.7em;
+    $switchSize: $baseSize * 0.9;
+    $borderSize: 2px;
+
+    appearance: none;
+    width: $baseSize * 2;
+    height: $baseSize;
+    background-color: inherit;
+    border: $borderSize solid var(--border-color);
+    border-radius: $baseSize;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s ease;
+
+    &:checked {
+        background-color: var(--primary-color);
+    }
+
+    &::before {
+        content: '';
+        width: $switchSize;
+        height: $switchSize;
+        background-color: transparent;
+        border: $borderSize solid var(--border-color);
+        border-radius: 50%;
+        position: absolute;
+        top: 49%;
+        left: 0;
+        transform: translateY(-50%);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    &:checked::before {
+        transform: translate($baseSize, -50%);
+    }
+}

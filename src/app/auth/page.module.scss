@@ -1,0 +1,99 @@
+@use './_constants' as *;
+@use './_mixins' as *;
+
+.wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 0.1fr;
+    min-height: 100%;
+
+    .poster {
+        position: relative;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 1.5em;
+        width: fit-content;
+        padding: 2em;
+
+        .header,
+        .subHeader {
+            font-weight: $font-weight-xl;
+        }
+
+        .header {
+            font-size: 4em;
+        }
+
+        .subHeader {
+            font-size: 2em;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+            max-width: 300px;
+        }
+
+        .agreement {
+            font-size: 0.8em;
+        }
+    }
+
+    .footer {
+        grid-column: span 2;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1em;
+        font-size: 0.8em;
+        padding: 2em;
+
+        .link {
+            color: inherit;
+        }
+    }
+
+    @include breakpoint(tablet) {
+        grid-template-columns: 1fr;
+        grid-template-rows: 0.3fr 1fr;
+
+        .content {
+            margin: auto;
+        }
+
+        .footer {
+            grid-column: unset;
+        }
+    }
+
+    @include breakpoint(mobile) {
+        grid-template-columns: 1fr;
+
+        .poster {
+            display: none;
+        }
+
+        .content {
+            margin: auto;
+        }
+
+        .footer {
+            grid-column: unset;
+        }
+    }
+
+    @include breakpoint(desktop) {
+        .content {
+            .controls {
+                max-width: 20vw;
+            }
+        }
+    }
+}

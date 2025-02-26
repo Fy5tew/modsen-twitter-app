@@ -1,0 +1,21 @@
+@use './_constants' as *;
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+
+    .item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 1em;
+        color: inherit;
+        font-weight: #{$font-weight-s};
+
+        .icon {
+            width: 1.5em;
+            height: 1.5em;
+        }
+    }
+}
