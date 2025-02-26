@@ -25,6 +25,7 @@ export default function FileInput<T extends FieldValues>({
 
         if (file.size > MAX_IMAGE_SIZE) {
             showError('Image size is too large!');
+            event.target.value = '';
             return;
         }
 
