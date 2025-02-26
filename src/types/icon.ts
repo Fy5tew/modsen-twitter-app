@@ -10,6 +10,7 @@ export interface IconSources {
     chevron: string;
     cross: string;
     trashbin: string;
+    search: string;
     likeEmpty: string;
     likeFilled: string;
     media: string;
