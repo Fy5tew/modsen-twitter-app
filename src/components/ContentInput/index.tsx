@@ -10,9 +10,9 @@ import Icon from '@/components/Icon';
 import Loader from '@/components/Loader';
 import { useCurrentUser } from '@/hooks/user';
 import { useIcons } from '@/providers/icon';
-import { contentForm, IContentForm } from '@/utils/formShema';
 
 import styles from './ContentInput.module.scss';
+import { contentForm, IContentForm } from './shema';
 
 export interface ContentInputProps {
     buttonContent?: ReactNode;

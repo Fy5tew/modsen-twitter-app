@@ -1,0 +1,27 @@
+@use './_constants' as *;
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+
+    .header {
+        font-family: var(--font-secondary);
+        font-weight: #{$font-weight-l};
+        font-size: 1.3em;
+    }
+
+    .link {
+        width: fit-content;
+    }
+
+    .dateInfo {
+        color: var(--placeholder-color);
+    }
+
+    .dateInput {
+        display: grid;
+        grid-template-columns: 3fr 1fr 1fr;
+        gap: 1em;
+    }
+}

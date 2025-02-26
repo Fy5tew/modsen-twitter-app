@@ -20,12 +20,6 @@
         font-weight: #{$font-weight-l};
     }
 
-    .form {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5em;
-    }
-
     .link {
         align-self: flex-end;
     }

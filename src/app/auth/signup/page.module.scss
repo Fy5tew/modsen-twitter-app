@@ -21,29 +21,6 @@
         font-family: var(--font-secondary);
         font-weight: #{$font-weight-l};
         font-size: 1.3em;
-    }
-
-    .headerLarge {
         font-size: 2em;
-    }
-
-    .form {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5em;
-    }
-
-    .link {
-        width: fit-content;
-    }
-
-    .dateInfo {
-        color: var(--placeholder-color);
-    }
-
-    .dateInput {
-        display: grid;
-        grid-template-columns: 3fr 1fr 1fr;
-        gap: 1em;
     }
 }
