@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import Icon from '@/components/Icon';
+import { DEFAULT_USER_NAME, DEFAULT_USER_PHOTO } from '@/constants/defaults';
 import { Routes } from '@/constants/routes';
 import { useAuth } from '@/hooks/auth';
 import {
@@ -80,11 +81,15 @@ export default function Tweet({
 
     return (
         <div className={styles.wrapper}>
-            <Icon className={styles.photo} src={user?.photo ?? ''} alt="" />
+            <Icon
+                className={styles.photo}
+                src={user?.photo || DEFAULT_USER_PHOTO}
+                alt=""
+            />
             <div className={styles.contentWrapper}>
                 <Link href={href} className={styles.info}>
                     <span className={styles.name}>
-                        {user?.name ?? 'Deleted Acount'}
+                        {user?.name ?? DEFAULT_USER_NAME}
                     </span>
                     <span className={styles.username}>{user?.email}</span>
                     <span className={styles.date}>
@@ -96,7 +101,7 @@ export default function Tweet({
                     <div className={styles.imageWrapper}>
                         <Image
                             className={styles.image}
-                            src={tweet.image ?? ''}
+                            src={tweet.image}
                             alt=""
                             width={16}
                             height={9}
@@ -112,7 +117,7 @@ export default function Tweet({
                     >
                         <Icon
                             src={isLiked ? icons.likeFilled : icons.likeEmpty}
-                            alt=""
+                            alt={isLiked ? 'Unlike' : 'Like'}
                         />
                         <span className={styles.buttonText}>
                             {tweet.likedBy.length}
@@ -124,7 +129,7 @@ export default function Tweet({
                             onClick={handleDeleteClick}
                             disabled={isDeletionPending}
                         >
-                            <Icon src={icons.trashbin} alt="" />
+                            <Icon src={icons.trashbin} alt="Delete" />
                         </button>
                     )}
                 </div>

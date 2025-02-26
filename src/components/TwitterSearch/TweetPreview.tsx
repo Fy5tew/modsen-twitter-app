@@ -1,9 +1,9 @@
-import Image from 'next/image';
-
 import Loader from '@/components/Loader';
+import { DEFAULT_USER_NAME, DEFAULT_USER_PHOTO } from '@/constants/defaults';
 import { useUser } from '@/hooks/user';
 import { Tweet } from '@/types/tweet';
 
+import styles from './TwitterSearch.module.scss';
 import UserPreview from './UserPreview';
 
 export interface TweetPreviewProps {
@@ -11,7 +11,7 @@ export interface TweetPreviewProps {
 }
 
 export default function TweetPreview({
-    tweet: { userUid, text, image },
+    tweet: { userUid, text },
 }: TweetPreviewProps) {
     const { data: user, isLoading, error } = useUser(userUid);
 
@@ -25,26 +25,21 @@ export default function TweetPreview({
     }
 
     return (
-        <div>
+        <div className={styles.tweetPreview}>
             <UserPreview
                 user={
                     user ?? {
                         uid: userUid,
-                        name: 'Unknown User',
+                        name: DEFAULT_USER_NAME,
                         phone: '',
                         email: '',
                         bio: '',
                         birthDate: 0,
-                        photo: '/account.svg',
+                        photo: DEFAULT_USER_PHOTO,
                     }
                 }
             />
             <p>{text}</p>
-            {image && (
-                <div style={{ position: 'relative' }}>
-                    <Image src={image} alt="" fill />
-                </div>
-            )}
         </div>
     );
 }

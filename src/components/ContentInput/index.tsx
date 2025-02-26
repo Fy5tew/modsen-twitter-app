@@ -8,6 +8,7 @@ import FileInput from '@/components/FileInput';
 import FormField from '@/components/FormField';
 import Icon from '@/components/Icon';
 import Loader from '@/components/Loader';
+import { DEFAULT_USER_PHOTO } from '@/constants/defaults';
 import { useCurrentUser } from '@/hooks/user';
 import { useIcons } from '@/providers/icon';
 
@@ -62,7 +63,11 @@ export default function ContentInput({
 
     return (
         <form className={styles.wrapper} onSubmit={handleSubmit(onSubmit)}>
-            <Icon className={styles.photo} src={user.photo} alt="" />
+            <Icon
+                className={styles.photo}
+                src={user.photo || DEFAULT_USER_PHOTO}
+                alt=""
+            />
             <div className={styles.mainWrapper}>
                 <FormField error={errors.text?.message}>
                     <textarea

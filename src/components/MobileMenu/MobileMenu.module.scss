@@ -1,3 +1,5 @@
+@use './mixins' as *;
+
 .overlay {
     position: absolute;
     top: 0;
@@ -18,7 +20,7 @@
     right: 0;
     display: flex;
     flex-direction: column;
-    gap: 3em;
+    gap: 2.5em;
     min-width: 200px;
     max-width: 350px;
     width: 100%;
@@ -45,5 +47,13 @@
 
     &[data-opened='true'] {
         transform: translateX(0);
+    }
+
+    @include breakpoint(tablet) {
+        font-size: 1.1em;
+    }
+
+    @include breakpoint(mobile) {
+        font-size: 1.2em;
     }
 }

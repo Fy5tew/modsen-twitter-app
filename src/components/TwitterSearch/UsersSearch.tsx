@@ -6,6 +6,7 @@ import { Routes } from '@/constants/routes';
 import { useSearchUsers } from '@/hooks/user';
 
 import { MAX_SEARCH_TWEETS } from './config';
+import styles from './TwitterSearch.module.scss';
 import UserPreview from './UserPreview';
 
 export interface UsersSearchProps {
@@ -31,7 +32,11 @@ export default function UsersSearch({ searchQuery }: UsersSearchProps) {
         result = 'No users found';
     } else {
         result = users!.map((user) => (
-            <Link key={user.uid} href={`${Routes.PROFILE}/${user.uid}`}>
+            <Link
+                key={user.uid}
+                className={styles.link}
+                href={`${Routes.PROFILE}/${user.uid}`}
+            >
                 <UserPreview user={user} />
             </Link>
         ));
@@ -40,7 +45,7 @@ export default function UsersSearch({ searchQuery }: UsersSearchProps) {
     return (
         <>
             <h1>Users</h1>
-            {result}
+            <div className={styles.list}>{result}</div>
         </>
     );
 }

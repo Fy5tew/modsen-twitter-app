@@ -8,6 +8,7 @@ import FormField from '@/components/FormField';
 import Input from '@/components/Input';
 import PageLoader from '@/components/PageLoader';
 import Select from '@/components/Select';
+import { DEFAULT_USER_PHOTO } from '@/constants/defaults';
 import { useRequestPasswordChange } from '@/hooks/auth';
 import { useCurrentUser, useUpdateInfo } from '@/hooks/user';
 import {
@@ -78,12 +79,6 @@ export default function UpdateForm() {
         return null;
     }
 
-    console.log(
-        new Date(user.birthDate).getMonth() + 1,
-        new Date(user.birthDate).getDate(),
-        new Date(user.birthDate).getFullYear()
-    );
-
     return (
         <form
             className={styles.form}
@@ -94,7 +89,7 @@ export default function UpdateForm() {
                 <div className={styles.photoWrapper}>
                     <Image
                         className={styles.photo}
-                        src={watch('photo')}
+                        src={watch('photo') || DEFAULT_USER_PHOTO}
                         alt=""
                         fill
                     />

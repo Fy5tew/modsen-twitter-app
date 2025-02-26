@@ -7,6 +7,7 @@ import { useSearchTweets } from '@/hooks/tweet';
 
 import { MAX_SEARCH_TWEETS } from './config';
 import TweetPreview from './TweetPreview';
+import styles from './TwitterSearch.module.scss';
 
 export interface TweetsSearchProps {
     searchQuery: string;
@@ -31,7 +32,11 @@ export default function TweetsSearch({ searchQuery }: TweetsSearchProps) {
         result = 'No tweets found';
     } else {
         result = tweets!.map((tweet) => (
-            <Link key={tweet.id} href={`${Routes.TWEET}/${tweet.id}`}>
+            <Link
+                key={tweet.id}
+                className={styles.link}
+                href={`${Routes.TWEET}/${tweet.id}`}
+            >
                 <TweetPreview tweet={tweet} />
             </Link>
         ));
@@ -40,7 +45,7 @@ export default function TweetsSearch({ searchQuery }: TweetsSearchProps) {
     return (
         <>
             <h1>Tweets</h1>
-            {result}
+            <div className={styles.list}>{result}</div>
         </>
     );
 }

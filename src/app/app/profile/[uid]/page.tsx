@@ -11,6 +11,7 @@ import PageLoader from '@/components/PageLoader';
 import Tweet from '@/components/Tweet';
 import TweetInput from '@/components/TweetInput';
 import UpdateForm from '@/components/UpdateForm';
+import { DEFAULT_USER_PHOTO } from '@/constants/defaults';
 import { useAuth } from '@/hooks/auth';
 import { useUserTweets } from '@/hooks/tweet';
 import { useFlag } from '@/hooks/useFlag';
@@ -55,7 +56,7 @@ export default function ProfilePage() {
                 <div className={styles.info}>
                     <Icon
                         className={styles.photo}
-                        src={user.photo || '/profile.svg'}
+                        src={user.photo || DEFAULT_USER_PHOTO}
                         alt=""
                     />
                     <h1 className={styles.title}>{user.name}</h1>

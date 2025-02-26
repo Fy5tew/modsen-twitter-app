@@ -1,0 +1,40 @@
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+    padding: 1.5em 0;
+}
+
+.link {
+    color: inherit;
+}
+
+.userPreview {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+
+    .photo {
+        width: 2.5em;
+        height: 2.5em;
+        border-radius: 50%;
+        overflow: hidden;
+        flex-shrink: 0;
+    }
+
+    .info {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        .email {
+            font-size: 0.8em;
+        }
+    }
+}
+
+.tweetPreview {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}

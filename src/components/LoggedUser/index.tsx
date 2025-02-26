@@ -3,6 +3,7 @@
 import Button from '@/components/Button';
 import Icon from '@/components/Icon';
 import Loader from '@/components/Loader';
+import { DEFAULT_USER_PHOTO } from '@/constants/defaults';
 import { useLogout } from '@/hooks/auth';
 import { useCurrentUser } from '@/hooks/user';
 
@@ -33,7 +34,7 @@ export default function LoggedUser() {
         <div className={styles.wrapper}>
             <Icon
                 className={styles.photo}
-                src={user.photo || '/profile.svg'}
+                src={user.photo || DEFAULT_USER_PHOTO}
                 alt=""
             />
             <div className={styles.info}>
