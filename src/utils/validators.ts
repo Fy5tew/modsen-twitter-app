@@ -1,6 +1,7 @@
 import * as yup from 'yup';
 
 import {
+    MAX_BIO_LENGTH,
     MAX_DATE_DAY,
     MAX_DATE_MONTH,
     MAX_DATE_YEAR,
@@ -63,7 +64,7 @@ export const date = yup
             .number()
             .required('Year is required')
             .min(MIN_DATE_YEAR, `Year must be at least ${MIN_DATE_YEAR}`)
-            .max(MAX_DATE_YEAR, `Yaer cannot be more than ${MAX_DATE_YEAR}`),
+            .max(MAX_DATE_YEAR, `Year cannot be more than ${MAX_DATE_YEAR}`),
     })
     .required('Date is required');
 
@@ -98,6 +99,12 @@ export const passwordConfirmation = (ref = 'password') =>
         .string()
         .oneOf([yup.ref(ref)], 'Passwords must match')
         .required('Password confirmation is required');
+
+export const userPhoto = yup.string().required('Photo is required');
+
+export const bio = yup
+    .string()
+    .max(MAX_BIO_LENGTH, `Bio cannot be more than ${MAX_BIO_LENGTH}`);
 
 export const contentText = yup.string().required('Content is required');
 

@@ -21,13 +21,7 @@ const userService = {
         return await setDoc(doc(db, FIRESTORE_USER_INFO, uid), info);
     },
 
-    async updateInfo({
-        uid,
-        info,
-    }: {
-        uid: UserUID;
-        info: Partial<BaseUserInfo>;
-    }) {
+    async updateInfo({ uid, info }: { uid: UserUID; info: BaseUserInfo }) {
         return await setDoc(doc(db, FIRESTORE_USER_INFO, uid), info, {
             merge: true,
         });

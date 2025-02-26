@@ -1,7 +1,9 @@
 export const MIN_NAME_LENGTH = 5;
-export const MAX_NAME_LENGTH = 15;
+export const MAX_NAME_LENGTH = 30;
 
 export const MIN_PASSWORD_LENGTH = 6;
+
+export const MAX_BIO_LENGTH = 255;
 
 export const MIN_DATE_DAY = 1;
 export const MAX_DATE_DAY = 31;

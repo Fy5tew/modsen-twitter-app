@@ -58,3 +58,12 @@ export function getBirthYearSelectOptions() {
     const startYear = endYear - MAX_AGE;
     return getYearSelectOptions(startYear, endYear);
 }
+
+export function dateToSelectValues(date?: number) {
+    if (!date) return { month: 0, day: 0, year: 0 };
+    return {
+        month: new Date(date).getMonth() + 1,
+        day: new Date(date).getDate(),
+        year: new Date(date).getFullYear(),
+    };
+}

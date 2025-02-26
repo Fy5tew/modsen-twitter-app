@@ -1,6 +1,7 @@
 import {
     createUserWithEmailAndPassword,
     GoogleAuthProvider,
+    sendPasswordResetEmail,
     signInWithEmailAndPassword,
     signInWithPopup,
     signOut,
@@ -53,6 +54,10 @@ const authService = {
 
     async logout() {
         return await signOut(auth);
+    },
+
+    async requestPasswordChange({ email }: { email: string }) {
+        return await sendPasswordResetEmail(auth, email);
     },
 };
 

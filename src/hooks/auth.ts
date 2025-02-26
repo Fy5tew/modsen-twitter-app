@@ -40,3 +40,11 @@ export function useLogout() {
         onError: (error) => showError(error.message),
     });
 }
+
+export function useRequestPasswordChange() {
+    return useMutation({
+        mutationFn: authService.requestPasswordChange,
+        onSuccess: () => showSuccess('Message was sent to your email!'),
+        onError: (error) => showError(error.message),
+    });
+}
