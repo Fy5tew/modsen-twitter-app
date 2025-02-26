@@ -12,8 +12,8 @@ interface ClientLayoutProps {
 }
 
 export default function ClientLayout({ children }: ClientLayoutProps) {
-    useAuthRedirect();
     const pathname = usePathname();
+    useAuthRedirect();
 
     return (
         <Suspense key={pathname} fallback={<Loader />}>

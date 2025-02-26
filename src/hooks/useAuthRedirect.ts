@@ -20,10 +20,8 @@ export default function useAuthRedirect() {
         const isAppPage = pathname.startsWith(Routes.APP);
 
         if (!user && (isIndexPage || isAppPage)) {
-            console.log('TO AUTH');
             router.replace(Routes.AUTH);
         } else if (user && (isIndexPage || isAuthPage)) {
-            console.log('TO APP');
             router.replace(Routes.APP);
         }
     }, [isLoading, pathname, router, user]);
