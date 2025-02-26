@@ -11,6 +11,7 @@ import FormField from '@/components/FormField';
 import Icon from '@/components/Icon';
 import Input from '@/components/Input';
 import Loader from '@/components/Loader';
+import PageHeader from '@/components/PageHeader';
 import PageLoader from '@/components/PageLoader';
 import Select from '@/components/Select';
 import Tweet from '@/components/Tweet';
@@ -95,14 +96,16 @@ export default function ProfilePage() {
 
     return (
         <div className={styles.wrapper}>
-            <div className={styles.header}>
-                <h1 className={styles.title}>{user.name}</h1>
-                {tweets ? (
-                    <p className={styles.text}>{tweets.length} Tweets</p>
-                ) : (
-                    <Loader />
-                )}
-            </div>
+            <PageHeader>
+                <div className={styles.header}>
+                    <h1 className={styles.title}>{user.name}</h1>
+                    {tweets ? (
+                        <p className={styles.text}>{tweets.length} Tweets</p>
+                    ) : (
+                        <Loader />
+                    )}
+                </div>
+            </PageHeader>
             <div className={styles.infoWrapper}>
                 <div className={styles.info}>
                     <Icon

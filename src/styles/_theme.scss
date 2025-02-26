@@ -5,7 +5,7 @@
     --font-secondary: var(--font-roboto-serif);
 
     --toastify-color-light: #{$white};
-    --toastify-color-dark: #{$black};
+    --toastify-color-dark: #{$dark-grey-100};
     --toastify-color-info: #{$blue};
     --toastify-color-success: #{$green};
     --toastify-color-warning: #{$yellow};
@@ -15,6 +15,7 @@
 html,
 html[data-theme='light'] {
     --background-color: #{$light-background-color};
+    --background-layer-color: #{$light-background-layer-color};
     --text-color: #{$light-text-color};
     --primary-color: #{$light-primary-color};
     --secondary-color: #{$light-secondary-color};
@@ -25,6 +26,7 @@ html[data-theme='light'] {
 
 html[data-theme='dark'] {
     --background-color: #{$dark-background-color};
+    --background-layer-color: #{$dark-background-layer-color};
     --text-color: #{$dark-text-color};
     --primary-color: #{$dark-primary-color};
     --secondary-color: #{$dark-secondary-color};

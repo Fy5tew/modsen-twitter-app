@@ -1,6 +1,14 @@
 .wrapper {
+    padding: 2em;
+}
+
+.desktopWrapper {
     display: grid;
     grid-template-columns: 0.5fr 1fr 0.5fr;
     gap: 2em;
-    padding: 2em;
+    justify-items: center;
+
+    .content {
+        justify-self: stretch;
+    }
 }

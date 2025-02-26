@@ -1,11 +1,10 @@
 import TwitterSearch from '@/components/TwitterSearch';
 
-import ThemeSwitch from '../ThemeSwitch';
+import styles from './Sidebar.module.scss';
 
 export default function Sidebar() {
     return (
-        <div>
-            <ThemeSwitch />
+        <div className={styles.wrapper}>
             <TwitterSearch />
         </div>
     );

@@ -17,7 +17,8 @@ $desktop-width: 2561px;
 
 $white: #ffffff;
 $black: #000000;
-$dark-grey: #121212;
+$dark-grey-100: #232323;
+$dark-grey-200: #121212;
 $grey-100: #eff3f4;
 $grey-200: #e4eaed;
 $grey-300: #b3b8bb;
@@ -30,14 +31,16 @@ $yellow: #f1c40f;
 $green: #07bc0c;
 
 $light-background-color: $white;
-$light-text-color: $dark-grey;
+$light-background-layer-color: $grey-100;
+$light-text-color: $dark-grey-200;
 $light-primary-color: $blue;
 $light-secondary-color: $white;
 $light-border-color: $grey-200;
 $light-placeholder-color: $grey-400;
 $light-error-color: $red;
 
-$dark-background-color: $dark-grey;
+$dark-background-color: $dark-grey-200;
+$dark-background-layer-color: $dark-grey-100;
 $dark-text-color: $white;
 $dark-primary-color: $blue;
 $dark-secondary-color: $white;

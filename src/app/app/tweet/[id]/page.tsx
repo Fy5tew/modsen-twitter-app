@@ -2,6 +2,7 @@
 
 import { useParams } from 'next/navigation';
 
+import PageHeader from '@/components/PageHeader';
 import PageLoader from '@/components/PageLoader';
 import Tweet, { TweetRefType } from '@/components/Tweet';
 import { useTweet } from '@/hooks/tweet';
@@ -23,5 +24,12 @@ export default function TweetPage() {
         return null;
     }
 
-    return <Tweet tweet={tweet} refType={TweetRefType.AUTHOR} />;
+    return (
+        <>
+            <PageHeader>
+                <h1>Tweet</h1>
+            </PageHeader>
+            <Tweet tweet={tweet} refType={TweetRefType.AUTHOR} />
+        </>
+    );
 }

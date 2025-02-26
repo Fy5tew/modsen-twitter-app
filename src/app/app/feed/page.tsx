@@ -3,6 +3,7 @@
 import { Fragment } from 'react';
 
 import Button from '@/components/Button';
+import PageHeader from '@/components/PageHeader';
 import PageLoader from '@/components/PageLoader';
 import Tweet from '@/components/Tweet';
 import { useAuth } from '@/hooks/auth';
@@ -33,7 +34,9 @@ export default function Feed() {
 
     return (
         <>
-            <h1>Feed</h1>
+            <PageHeader>
+                <h1>Feed</h1>
+            </PageHeader>
             {tweetsFeed?.pages.map((page, pageIndex) => (
                 <Fragment key={pageIndex}>
                     {page.map((tweet) => (

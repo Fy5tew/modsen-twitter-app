@@ -7,6 +7,10 @@ html {
     width: 100%;
     height: 100%;
     font-size: #{$font-size-base};
+
+    &[data-noscroll='true'] {
+        overflow: hidden;
+    }
 }
 
 body {
